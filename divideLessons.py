@@ -1,6 +1,7 @@
-import os
+﻿import os
 import platform
 import json
+import pyperclip
 
 def loadInternalData():
     jsonFiles = [f for f in os.listdir('.') if os.path.isfile(f) and f.endswith('.data')]
@@ -115,6 +116,20 @@ def testData(studentData, internalData):
 def save(obj, filePath):
     with open(filePath, 'w') as jsonFile:
         json.dump(obj, jsonFile, indent=4)
+        
+
+def saveString(inputStr, fileName):
+    pyperclip.copy(inputStr)
+    
+    filePath = 'temp.txt'
+    if not os.path.exists(filePath):
+        print(f'{filePath} does not exist, it will be created.')
+    
+    with open(filePath, 'w') as file:
+        file.write(inputStr)
+    
+    print(f'String saved to {filePath} and copied to clipboard.')
+
 
 
 def sendStudents(studentData, internalData):
@@ -148,13 +163,18 @@ def sendStudents(studentData, internalData):
 
 
     
-def printData(taData):
+def getString(taData):
+    result = ''
     for ta in taData:
-        print(f'Students Assigned to {ta}')
+        result += f'Students Assigned to {ta}\n'
         
-        for idx, student in taData[ta]:
-            print(f'{idx}. {student["name"]} - {student["link"]}')
+        for idx, student in enumerate(taData[ta], start=1):
+            result += f'{idx}. {student["email"]} - {student["link"]}\n'
+        
+        result += '\n'
     
+    return result
+
 
 
 
@@ -168,12 +188,9 @@ def main():
     
     sentData = sendStudents(studentData, internalData)
     
-    # print(json.dumps(temp, indent=2))
-    printData(sentData)
-    
-    
+    saveString(getString(sentData), "temp.txt")
     save(internalData, fileLoc)
-    save(sentData, "temp.txt")
+    # save(sentData, "temp.txt")
     
     
 
