@@ -13,7 +13,8 @@ def process_bookmark_js(file_path):
     
     cleaned_text = ''.join(clean_lines)
     
-    cleaned_text = re.sub(r'[\s]', '', cleaned_text)
+    cleaned_text = re.sub(r'[\s]\n', '', cleaned_text)
+    cleaned_text = re.sub(r'[\n]', '', cleaned_text)
     
     bookmarklet = f"javascript:(() => {{ {cleaned_text} }})();"
     
