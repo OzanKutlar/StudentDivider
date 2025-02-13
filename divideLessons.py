@@ -118,10 +118,9 @@ def save(obj, filePath):
         json.dump(obj, jsonFile, indent=4)
         
 
-def saveString(inputStr, fileName):
+def saveString(inputStr, filePath):
     pyperclip.copy(inputStr)
     
-    filePath = 'temp.txt'
     if not os.path.exists(filePath):
         print(f'{filePath} does not exist, it will be created.')
     
@@ -189,8 +188,10 @@ def main():
     sentData = sendStudents(studentData, internalData)
     
     saveString(getString(sentData), "temp.txt")
-    save(internalData, fileLoc)
     # save(sentData, "temp.txt")
+    
+    save(internalData, fileLoc)
+    
     
     
 
