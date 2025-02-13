@@ -108,7 +108,7 @@ def testData(studentData, internalData):
             taName = input("Enter Teaching Assistant name (or 'exit' to stop): ").strip()
             if taName == 'exit' or taName == '':
                 break
-            teachingAssistants[taName] = []
+            teachingAssistants[taName] = {}
         internalData.update(teachingAssistants)
         print("Teaching assistants initialized:", internalData)
 
@@ -118,35 +118,23 @@ def save(obj, filePath):
 
 
 def sendStudents(studentData, internalData):
-    studentIds = [student['id'] for student in studentData]
-    
-    numTAs = len(internalData)
-    
-    numStudentsPerTA = len(studentIds) // numTAs
-    
-    taAssignments = {taName: [] for taName in internalData}
+    taAssignmentCount = {taName: 0 for taName in internalData}
 
-    studentGradingCounts = {studentId: {taName: 0 for taName in internalData} for studentId in studentIds}
+    students = sorted(studentData, key=lambda x: x['id'])
 
-    for studentId in studentIds:
-        taGradingCounts = {taName: internalData[taName].get(studentId, 0) for taName in internalData}
-        
-        leastGradedTA = min(taGradingCounts, key=taGradingCounts.get)
-        
-        taAssignments[leastGradedTA].append(studentId)
-        
-        internalData[leastGradedTA][studentId] = taGradingCounts[leastGradedTA] + 1
-    
-    allAssignedStudents = sum(taAssignments.values(), [])
-    numAssignedPerTA = len(allAssignedStudents) // numTAs
-    remainingStudents = allAssignedStudents[numTAs * numAssignedPerTA:]
+    for student in students:
+        taWithLeastGrading = min(internalData, key=lambda taName: taAssignmentCount[taName])
 
-    for taName in internalData:
-        if len(taAssignments[taName]) < numAssignedPerTA:
-            while len(taAssignments[taName]) < numAssignedPerTA:
-                taAssignments[taName].append(remainingStudents.pop())
+        taAssignments = internalData[taWithLeastGrading]
 
-    return taAssignments
+        if student['id'] not in taAssignments:
+            taAssignments[student['id']] = 0
+        taAssignments[student['id']] += 1
+
+        taAssignmentCount[taWithLeastGrading] += 1
+
+    return internalData
+
 
 
 
@@ -155,7 +143,10 @@ def main():
     [internalData, fileLoc] = loadInternalData()
     testData(studentData, internalData)
     save(internalData, fileLoc)
-    print(sendStudents(studentData, internalData))
+    internalData = sendStudents(studentData, internalData)
+    print(json.dumps(internalData, indent=2))
+    save(internalData, fileLoc)
+    
     
 
 main()
