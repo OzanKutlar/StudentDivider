@@ -1,4 +1,3 @@
-javascript:(() => {
 function getStudents(){
 	let elementsMatrix = [];
 	
@@ -95,5 +94,3 @@ console.log(temp);
 temp = processStudentMatrix(temp);
 
 downloadMatrixAsJson(temp)
-
-})();
