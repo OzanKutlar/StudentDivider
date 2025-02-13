@@ -116,11 +116,46 @@ def save(obj, filePath):
     with open(filePath, 'w') as jsonFile:
         json.dump(obj, jsonFile, indent=4)
 
+
+def sendStudents(studentData, internalData):
+    studentIds = [student['id'] for student in studentData]
+    
+    numTAs = len(internalData)
+    
+    numStudentsPerTA = len(studentIds) // numTAs
+    
+    taAssignments = {taName: [] for taName in internalData}
+
+    studentGradingCounts = {studentId: {taName: 0 for taName in internalData} for studentId in studentIds}
+
+    for studentId in studentIds:
+        taGradingCounts = {taName: internalData[taName].get(studentId, 0) for taName in internalData}
+        
+        leastGradedTA = min(taGradingCounts, key=taGradingCounts.get)
+        
+        taAssignments[leastGradedTA].append(studentId)
+        
+        internalData[leastGradedTA][studentId] = taGradingCounts[leastGradedTA] + 1
+    
+    allAssignedStudents = sum(taAssignments.values(), [])
+    numAssignedPerTA = len(allAssignedStudents) // numTAs
+    remainingStudents = allAssignedStudents[numTAs * numAssignedPerTA:]
+
+    for taName in internalData:
+        if len(taAssignments[taName]) < numAssignedPerTA:
+            while len(taAssignments[taName]) < numAssignedPerTA:
+                taAssignments[taName].append(remainingStudents.pop())
+
+    return taAssignments
+
+
+
 def main():
     studentData = loadStudentData()
     [internalData, fileLoc] = loadInternalData()
     testData(studentData, internalData)
-    save(studentData, fileLoc)
-
+    save(internalData, fileLoc)
+    print(sendStudents(studentData, internalData))
+    
 
 main()
