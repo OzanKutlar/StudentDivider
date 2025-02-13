@@ -130,11 +130,14 @@ def sendStudents(studentData, internalData):
 
     for student in students:
         availableTas = [ta for ta in internalData if taAssignmentCount[ta] < upperLimit]
-
+        
+        
         if not availableTas:
-            taWithLeastGrading = min(internalData, key=lambda taName: internalData[taName].get(student['id'], 0))
+            taWithLeastGrading = min(internalData, key=lambda taName: internalData[taName].get(student['id'], 0) + taAssignmentCount[taName])
         else:
-            taWithLeastGrading = min(availableTas, key=lambda taName: taAssignmentCount[taName])
+            breakpoint()
+            taWithLeastGrading = min(availableTas, key=lambda taName: internalData[taName].get(student['id'], 0))
+            print(f'Sending to ${taWithLeastGrading}')
 
         emptyInternalData[taWithLeastGrading].append(student)
         
