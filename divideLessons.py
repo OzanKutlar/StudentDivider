@@ -158,10 +158,13 @@ def main():
     testData(studentData, internalData)
     save(internalData, fileLoc)
     
-    studentData = sendStudents(studentData, internalData)
+    sentData = sendStudents(studentData, internalData)
     
-    print(json.dumps(temp, indent=2))
+    # print(json.dumps(temp, indent=2))
+    
+    
     save(internalData, fileLoc)
+    save(sentData, "temp.txt")
     
     
 
