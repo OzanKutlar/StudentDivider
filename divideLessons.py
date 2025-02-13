@@ -135,9 +135,8 @@ def sendStudents(studentData, internalData):
         if not availableTas:
             taWithLeastGrading = min(internalData, key=lambda taName: internalData[taName].get(student['id'], 0) + taAssignmentCount[taName])
         else:
-            breakpoint()
+            # breakpoint()
             taWithLeastGrading = min(availableTas, key=lambda taName: internalData[taName].get(student['id'], 0))
-            print(f'Sending to ${taWithLeastGrading}')
 
         emptyInternalData[taWithLeastGrading].append(student)
         
