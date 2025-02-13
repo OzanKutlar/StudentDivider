@@ -105,7 +105,7 @@ def testData(studentData, internalData):
     if not internalData:
         teachingAssistants = {}
         while True:
-            taName = input("Enter Teaching Assistant name (or 'exit' to stop): ").strip()
+            taName = input("Enter Teaching Assistant name (Leave blank or 'exit' to stop): ").strip()
             if taName == 'exit' or taName == '':
                 break
             teachingAssistants[taName] = {}
@@ -121,6 +121,8 @@ def sendStudents(studentData, internalData):
     taAssignmentCount = {taName: 0 for taName in internalData}
 
     students = sorted(studentData, key=lambda x: x['id'])
+    
+    emptyInternalData = {taName: {} for taName in internalData}
 
     for student in students:
         taWithLeastGrading = min(internalData, key=lambda taName: taAssignmentCount[taName])
@@ -141,9 +143,12 @@ def sendStudents(studentData, internalData):
 def main():
     studentData = loadStudentData()
     [internalData, fileLoc] = loadInternalData()
+    
     testData(studentData, internalData)
     save(internalData, fileLoc)
+    
     internalData = sendStudents(studentData, internalData)
+    
     print(json.dumps(internalData, indent=2))
     save(internalData, fileLoc)
     
