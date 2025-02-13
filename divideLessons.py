@@ -190,7 +190,7 @@ def main():
     saveString(getString(sentData), "temp.txt")
     # save(sentData, "temp.txt")
     
-    save(internalData, fileLoc)
+    # save(internalData, fileLoc)
     
     
     

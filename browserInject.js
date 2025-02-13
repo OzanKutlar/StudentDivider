@@ -20,6 +20,7 @@ function processStudentMatrix(matrix) {
 	const relevantIndexes = [2, 3, 4, 8, 9];
 	
 	let filteredMatrix = matrix.filter(student => student[5].innerText.startsWith("Submitted for grading"));
+	// let filteredMatrix = matrix.filter(student => return true);
 	
 	let cleanedMatrix = filteredMatrix.map(student => relevantIndexes.map(index => student[index]));
 	
@@ -32,21 +33,23 @@ function processStudentMatrix(matrix) {
 }
 
 function cleanStudent(arr) {
-	let element = arr[4];
-	const link = element.querySelector('a');
-	
+	const link = arr[4].querySelector('a');
 	if (link) {
 		arr[4] = link.href;
 	} else {
 		console.log('No <a> tag found in the provided element.');
 	}
 	
+	// Name
 	arr[0] = arr[0].innerText;
 	
+	// ID
 	arr[1] = arr[1].innerText;
 	
+	// Email
 	arr[2] = arr[2].innerText;
 
+	// Time
 	arr[3] = arr[3].innerText;
 	
 	
@@ -89,8 +92,13 @@ function downloadMatrixAsJson(matrix) {
 
 temp = getStudents();
 
-console.log(temp);
+console.log(temp.length);
 
 temp = processStudentMatrix(temp);
 
-downloadMatrixAsJson(temp)
+if(temp.length != 0){
+	downloadMatrixAsJson(temp);
+}
+else{
+	alert("No submitted file found.");
+}
