@@ -122,20 +122,21 @@ def sendStudents(studentData, internalData):
 
     students = sorted(studentData, key=lambda x: x['id'])
     
-    emptyInternalData = {taName: {} for taName in internalData}
+    emptyInternalData = {taName: [] for taName in internalData}
 
     for student in students:
-        taWithLeastGrading = min(internalData, key=lambda taName: taAssignmentCount[taName])
+        taWithLeastGrading = min(internalData, key=lambda taName: internalData[taName].get(student['id'], 0))
 
         taAssignments = internalData[taWithLeastGrading]
 
         if student['id'] not in taAssignments:
             taAssignments[student['id']] = 0
         taAssignments[student['id']] += 1
+        emptyInternalData[taWithLeastGrading].append(student)
 
         taAssignmentCount[taWithLeastGrading] += 1
 
-    return internalData
+    return emptyInternalData
 
 
 
@@ -147,9 +148,9 @@ def main():
     testData(studentData, internalData)
     save(internalData, fileLoc)
     
-    internalData = sendStudents(studentData, internalData)
+    temp = sendStudents(studentData, internalData)
     
-    print(json.dumps(internalData, indent=2))
+    print(json.dumps(temp, indent=2))
     save(internalData, fileLoc)
     
     
