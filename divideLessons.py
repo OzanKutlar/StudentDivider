@@ -38,8 +38,8 @@ def loadInternalData():
                     print("Invalid input. Please enter a number.")
 
     if not shouldLoad:
-        print("Exiting.")
-        exit()
+        print("Continuing with empty data.")
+        return [{}, "data.data"]
 
     with open(dataFile, "r") as f:
         data = json.load(f)
@@ -148,6 +148,12 @@ def sendStudents(studentData, internalData):
 
 
     
+def printData(taData):
+    for ta in taData:
+        print(f'Students Assigned to {ta}')
+        
+        for idx, student in taData[ta]:
+            print(f'{idx}. {student["name"]} - {student["link"]}')
     
 
 
@@ -163,6 +169,7 @@ def main():
     sentData = sendStudents(studentData, internalData)
     
     # print(json.dumps(temp, indent=2))
+    printData(sentData)
     
     
     save(internalData, fileLoc)
