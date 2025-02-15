@@ -71,7 +71,7 @@ Make sure you have the following installed:
 1. Open a terminal and navigate to the project directory.  
 2. Run:  
    ```bash
-   python main.py
+   python divideStudents.py
    ```  
 3. Follow the prompts to assign students and save the results.  
 
@@ -79,7 +79,7 @@ Make sure you have the following installed:
 
 ## **File Descriptions**  
 
-### **1. `main.py`**  
+### **1. `divideStudents.py`**  
 - Loads student and TA data.  
 - Evenly distributes students among TAs.  
 - Saves and updates assignment history.  
@@ -99,7 +99,7 @@ Make sure you have the following installed:
 
 1. Run `converter.py` and save the bookmarklet.  
 2. Click the bookmark on `learn.khas.edu.tr` to generate a `.json` file.  
-3. Run `main.py` to distribute students among TAs.  
+3. Run `divideStudents.py` to distribute students among TAs.  
 4. The assignments are saved and copied to the clipboard for easy sharing.  
 
 ---
