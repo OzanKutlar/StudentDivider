@@ -5,7 +5,7 @@
 
 1. **`browserInject.js`** – A script that scrapes student data from [learn.khas.edu.tr](https://learn.khas.edu.tr/).  
 2. **`converter.py`** – Converts `browserInject.js` into a **bookmarklet**, allowing users to run the scraper directly from their browser bookmarks.  
-3. **`main.py`** – Processes the scraped student data and assigns students to TAs while keeping track of past assignments.  
+3. **`divideStudents.py`** – Processes the scraped student data and assigns students to TAs while keeping track of past assignments.  
 
 ---
 
@@ -36,9 +36,9 @@ Instead of manually running the JavaScript in the browser console every time, yo
 - The script will save student data as a `.json` file.  
 
 ### **Step 3: Assign Students to TAs**  
-1. Run `main.py`:  
+1. Run `divideStudents.py`:  
    ```bash
-   python main.py
+   python divideStudents.py
    ```  
 2. Follow the prompts to select student data and TA records.  
 3. Students will be **fairly assigned** to available TAs.  
