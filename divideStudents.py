@@ -188,9 +188,11 @@ def main():
     sentData = sendStudents(studentData, internalData)
     
     saveString(getString(sentData), "temp.txt")
-    # save(sentData, "temp.txt")
     
-    # save(internalData, fileLoc)
+    shouldLoad = input(f"Do you want to save data to {fileLoc}? (Y/n): ").strip().lower()
+    shouldLoad = shouldLoad in ("", "yes", "y")
+    if(shouldLoad):
+        save(internalData, fileLoc)
     
     
     

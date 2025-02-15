@@ -100,5 +100,5 @@ if(temp.length != 0){
 	downloadMatrixAsJson(temp);
 }
 else{
-	alert("No submitted file found.");
+	alert("No submissions were found.");
 }
