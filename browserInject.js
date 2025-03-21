@@ -17,7 +17,7 @@ function getStudents(){
 }
 
 function processStudentMatrix(matrix) {
-	const relevantIndexes = [2, 3, 4, 8, 9];
+	const relevantIndexes = [2, 3, 4, 8, 6];
 	
 	let filteredMatrix = matrix.filter(student => student[5].innerText.startsWith("Submitted for grading"));
 	// let filteredMatrix = matrix.filter(student => return true);
