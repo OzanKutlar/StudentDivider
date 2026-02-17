@@ -16,10 +16,38 @@ function getStudents(){
 	return elementsMatrix;
 }
 
+function downloadJavaFiles(matrix) {
+    // Go through each student row
+    matrix.forEach(student => {
+        // The file upload column — might be index 6 or 7, depending on your layout
+        let fileCell = student[6] || student[7];
+        if (!fileCell) return;
+
+        // Find all links inside the file upload cell
+        const links = fileCell.querySelectorAll('a[href]');
+        links.forEach(link => {
+            // Check if it's a .java file
+            if (link.href.includes('.java')) {
+                console.log('Downloading:', link.href);
+                
+                // Simulate user click to trigger download
+                const tempLink = document.createElement('a');
+                tempLink.href = link.href;
+                tempLink.target = '_blank';
+                tempLink.download = '';
+                document.body.appendChild(tempLink);
+                tempLink.click();
+                document.body.removeChild(tempLink);
+            }
+        });
+    });
+}
+
+
 function processStudentMatrix(matrix) {
-	const relevantIndexes = [2, 3, 4, 8, 6];
+	const relevantIndexes = [1, 2, 3, 6, 7];
 	
-	let filteredMatrix = matrix.filter(student => student[5].innerText.startsWith("Submitted for grading"));
+	let filteredMatrix = matrix.filter(student => student[4].innerText.startsWith("Submitted for grading"));
 	// let filteredMatrix = matrix.filter(student => return true);
 	
 	let cleanedMatrix = filteredMatrix.map(student => relevantIndexes.map(index => student[index]));
@@ -91,14 +119,15 @@ function downloadMatrixAsJson(matrix) {
 
 
 temp = getStudents();
-
 console.log(temp.length);
-
 temp = processStudentMatrix(temp);
 
-if(temp.length != 0){
-	downloadMatrixAsJson(temp);
-}
-else{
-	alert("No submissions were found.");
+if (temp.length != 0) {
+    // Download JSON summary
+    downloadMatrixAsJson(temp);
+
+    // Also trigger downloads of .java files
+    // downloadJavaFiles(temp);
+} else {
+    alert("No submissions were found.");
 }
